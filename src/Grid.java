@@ -9,7 +9,8 @@ import java.awt.event.MouseListener;
 
 public class Grid extends JPanel {
 
-    Cell[][] cells = new Cell[3][3];
+    private Cell[][] cells = new Cell[3][3];
+    private Graphics2D graphics;
 
     public Grid(){
         super();
@@ -20,10 +21,13 @@ public class Grid extends JPanel {
     public void draw(Graphics2D g2){
         int iCounter = 0;
         int jCounter = 0;
+
+        //Cycle through each position and create a cell in that location
         for(int i = 0; i < 940; i += 320){
            for(int j = 0; j < 940; j += 320){
                Cell c = new Cell(i, j, 300, 300);
                cells[iCounter][jCounter] = c;
+               //Create an empty cell, cell with an "X", or cell with an "O" depending on state
                if(c.getState() == 0){
                    c.draw(g2);
                }
@@ -47,6 +51,7 @@ public class Grid extends JPanel {
     }
 
 
+
     public MouseListener listener = new MouseInputAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -55,12 +60,12 @@ public class Grid extends JPanel {
             for(Cell[] cellArray : cells){
                 for(Cell cell : cellArray){
                     if(cell.getRect().contains(point)){
-                        System.out.println(cell.getX()/320 + "," + cell.getY()/320);
                         cell.setState(1);
                         repaint();
                     }
                 }
             }
+
         }
     };
 
