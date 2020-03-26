@@ -9,6 +9,7 @@ public class Cell{
     private int x;
     private int y;
     private int state;
+    private boolean chosen;
 
     public Cell(int x, int y, int width, int height){
         this.x = x;
@@ -17,7 +18,9 @@ public class Cell{
         this.height = height;
         this.rect = new Rectangle(x, y, width, height);
         this.state = 0;
+        this.chosen = false;
     }
+
 
     public void draw(Graphics2D g2){
         g2.setColor(Color.WHITE);
@@ -27,13 +30,12 @@ public class Cell{
 
     public void drawX(Graphics2D g2){
         System.out.println("x");
-        g2.setColor(Color.green);
-        g2.fill(rect);
-        g2.draw(rect);
+        this.chosen = true;
     }
 
     public void drawO(Graphics2D g2){
-
+        System.out.println("o");
+        this.chosen = true;
     }
 
     public void setX(int x){
@@ -62,6 +64,10 @@ public class Cell{
 
     public int getState(){
         return this.state;
+    }
+
+    public boolean isChosen(){
+        return this.chosen;
     }
 
 }

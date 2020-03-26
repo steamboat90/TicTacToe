@@ -7,47 +7,51 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class Grid extends JPanel {
+public class Grid extends JPanel{
 
     private Cell[][] cells = new Cell[3][3];
-    private Graphics2D graphics;
+    private int player;
 
     public Grid(){
         super();
         this.setBackground(Color.BLACK);
         this.addMouseListener(listener);
-    }
 
-    public void draw(Graphics2D g2){
         int iCounter = 0;
         int jCounter = 0;
 
-        //Cycle through each position and create a cell in that location
         for(int i = 0; i < 940; i += 320){
-           for(int j = 0; j < 940; j += 320){
-               Cell c = new Cell(i, j, 300, 300);
-               cells[iCounter][jCounter] = c;
-               //Create an empty cell, cell with an "X", or cell with an "O" depending on state
-               if(c.getState() == 0){
-                   c.draw(g2);
-               }
-               else if(c.getState() == 1){
-                   c.drawX(g2);
-               }else{
-                   c.drawO(g2);
-               }
-               jCounter++;
-           }
-           jCounter = 0;
-           iCounter++;
+            for(int j = 0; j < 940; j += 320){
+                Cell c = new Cell(i, j, 300, 300);
+                cells[iCounter][jCounter] = c;
+                jCounter++;
+            }
+            jCounter = 0;
+            iCounter++;
         }
+
+        this.player = 2;
+
     }
+
 
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
-        this.draw(g2);
+
+        for(Cell[] cellArray : cells){
+            for(Cell cell : cellArray){
+                if(cell.getState() == 0){
+                    cell.draw(g2);
+                }
+                else if(cell.getState() == 1 && !cell.isChosen()){
+                    cell.drawX(g2);
+                }else if(cell.getState() == 2 && !cell.isChosen()){
+                    cell.drawO(g2);
+                }
+            }
+        }
     }
 
 
@@ -60,7 +64,15 @@ public class Grid extends JPanel {
             for(Cell[] cellArray : cells){
                 for(Cell cell : cellArray){
                     if(cell.getRect().contains(point)){
-                        cell.setState(1);
+                        System.out.println("click");
+                        if(!cell.isChosen()){
+                            if(player == 1){
+                                player++;
+                            } else{
+                                player--;
+                            }
+                        }
+                        cell.setState(player);
                         repaint();
                     }
                 }
