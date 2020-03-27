@@ -161,6 +161,9 @@ public class Grid extends JPanel{
     public MouseListener listener = new MouseInputAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
+            if(winner != 0){
+                return;
+            }
             super.mouseClicked(e);
             Point point = e.getPoint();
             for(int i = 0; i < 3; i++){
